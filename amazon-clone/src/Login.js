@@ -39,7 +39,7 @@ function Login() {
             <Link to='/'>
                 <img
                     className="login__logo"
-                    src='http://pngimg.com/uploads/amazon/amazon_PNG11.png'
+                    src='https://i.postimg.cc/wxPy8bFn/1.png'
                 />
             </Link>
 
@@ -61,11 +61,11 @@ function Login() {
                 </form>
 
                 <p>
-                    By signing-in you agree to the AMAZON FAKE CLONE Conditions of Use & Sale. Please
+                    By signing-in you agree to the Syntax Squad Conditions of Use & Sale. Please
                     see our Privacy Notice, our Cookies Notice and our Interest-Based Ads Notice.
                 </p>
 
-                <button onClick={register} className='login__registerButton'>Create your Amazon Account</button>
+                <button onClick={register} className='login__registerButton'>Create your Syntax Squad</button>
             </div>
         </div>
     )

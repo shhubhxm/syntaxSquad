@@ -53,12 +53,13 @@
 }
 
 .login__signInButton {
-  background: #feBd69;
+  color: white;
+  background: #59405c;
   border-radius: 3px;
   border: 1px solid;
   height: 30px;
   margin-top: 10px;
-  border-color: #fdb454 #ffb049 #fbaa3f;
+  border-color: #59405c #59405c #59405c;
   cursor: pointer;
   width: 100%;
 }

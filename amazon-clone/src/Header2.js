@@ -10,7 +10,7 @@ function HeaderTwo() {
       <div className="header2__nav">
         <div className="header2__option">
           <span className="header2__optionOne">Deliver to</span>
-          <span className="header2__optionTwo">Gujarat, India</span>
+          <span className="header2__optionTwo">Santa Clara, USA</span>
         </div>
 
         <div className="header2__option__one">

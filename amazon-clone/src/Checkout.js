@@ -10,7 +10,7 @@ function Checkout() {
     return (
         <div className="checkout">
             <div className='checkout__left'>
-                <img className="checkout__ad" src="https://images-na.ssl-images-amazon.com/images/G/01/credit/img16/CCMP/newstorefront/YACC-desktop-nonprime-banner3.png" alt=""></img>
+                <img className="checkout__ad" src="https://i.postimg.cc/QsgQPpLt/card.png" alt=""></img>
                 <div>
                     <h3>Hello, {user?.email}</h3>
                     <h2 className="checkout__title">Your Shopping Basket</h2>

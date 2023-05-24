@@ -21,7 +21,7 @@ function Header() {
             <Link to="/">
                 <img
                     className="header__logo"
-                    src="http://pngimg.com/uploads/amazon/amazon_PNG25.png" />
+                    src="https://i.postimg.cc/7hpjqyQB/logo.png" />
             </Link>
             <div className="header__search">
                 <input
