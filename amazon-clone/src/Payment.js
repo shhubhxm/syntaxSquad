@@ -1,76 +1,65 @@
-import React, { useState, useEffect } from 'react';
-import "./Payment.css";
+import React, { useState, useEffect } from 'react'
+import "./Payment.css"
 import { useStateValue } from './StateProvider';
 import CheckoutProduct from "./CheckoutProduct";
 import { Link, useHistory } from "react-router-dom";
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import CurrencyFormat from "react-currency-format";
-import { getBasketTotal } from './reducer';
+import CurrencyFormat from "react-currency-format"
+import { getBasketTotal } from './reducer'
 import axios from "./axios";
-import { db } from "./firebase";
+import { db } from "./firebase"
 
 function Payment() {
-  const [{ user, basket }, dispatch] = useStateValue();
-  const history = useHistory();
+    const [{ user, basket }, dispatch] = useStateValue();
+    const history = useHistory();
 
-  const stripe = useStripe();
-  const elements = useElements();
+    const stripe = useStripe();
+    const elements = useElements();
 
-  const [succeeded, setSucceeded] = useState(false);
-  const [processing, setProcessing] = useState(false);
-  const [error, setError] = useState(null);
-  const [disabled, setDisabled] = useState(true);
-  const [clientSecret, setClientSecret] = useState("");
+    const [succeeded, setSucceeded] = useState(false);
+    const [processing, setProcessing] = useState("");
+    const [error, setError] = useState(null);
+    const [disabled, setDisabled] = useState(true);
+    const [clientSecret, setClientSecret] = useState("");
 
-  useEffect(() => {
-    const getClientSecret = async () => {
-      try {
-        const response = await axios.post(`/payments/create?total=${getBasketTotal(basket) * 100}`);
-        setClientSecret(response.data.clientSecret);
-      } catch (error) {
-        console.log("Error retrieving client secret:", error);
-      }
-    };
+    useEffect(() => {
+        const getClientSecret = async () => {
+            const response = await axios({
+                method: "post",
+                //stripe expects the total in a currencies subunits
+                //creates an end-point which after calling we'll get a response
+                //charge the customer the correct amount
+                url: `/payments/create?total=${getBasketTotal(basket) * 100}`,
+            });
 
-    getClientSecret();
-  }, [basket]);
+            setClientSecret(response.data.clientSecret);
+        };
 
-  console.log('The secret is >>>>>>>>>', clientSecret);
+        getClientSecret();
+    }, [basket]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setProcessing(true);
+    console.log('The secret is >>>>>>>>>', clientSecret)
 
-    try {
-      const payload = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardElement),
-        },
-      });
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setProcessing(true);
+    
+        setSucceeded(true);
+        setError(null);
+        setProcessing(false);
+    
+        dispatch({
+            type: "EMPTY_BASKET",
+        });
+    
+        history.replace("/orders");
+    };    
 
-      // Handle the payment intent confirmation and order creation here
-      // ...
-
-      setSucceeded(true);
-      setError(null);
-      setProcessing(false);
-
-      dispatch({
-        type: "EMPTY_BASKET",
-      });
-
-      history.replace("/orders");
-    } catch (error) {
-      console.log("Error confirming card payment:", error);
-      setError("Error confirming card payment. Please try again.");
-      setProcessing(false);
+    const handleChange = event => {
+        //display errors
+        setDisabled(event.empty);
+        setError(event.error ? event.error.message : "");
     }
-  };
-
-  const handleChange = (event) => {
-    setDisabled(event.empty);
-    setError(event.error ? event.error.message : "");
-  };
 
 
     return (
@@ -165,7 +154,7 @@ function Payment() {
                                         value={getBasketTotal(basket)}
                                         displayType={"text"}
                                         thousandSeparator={true}
-                                        prefix={"$"}
+                                        prefix={"₹"}
                                     />
                                     <button
                                         className="payment__button"
